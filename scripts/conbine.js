@@ -1,4 +1,3 @@
-
 let t1 = document.getElementById('1');
 let t2 = document.getElementById('2');
 let t3 = document.getElementById('3');
