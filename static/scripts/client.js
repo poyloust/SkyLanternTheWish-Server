@@ -121,6 +121,7 @@ function addInput() {
     var f = document.createElement("FORM");
     f.setAttribute("method","POST");
     f.setAttribute("action","/update");
+    f.setAttribute("onsubmit","showResult()");
 
     var x = document.createElement("INPUT");
     x.setAttribute("type", "text");
@@ -139,8 +140,13 @@ function addInput() {
     f.appendChild(s);
 }
 
-function showResult(){ ///////////move to /post
-    if(event.keyCode == 13){
+
+function showResult(evt){ ///////////move to /post
+    console.log('connect to nodejs');
+    //evt.preventDefualt();
+
+
+    // if(event.keyCode == 13){
         var audio = new Audio("assets/sound.wav");
         audio.play();
         resetCameraTrue = false;
@@ -160,7 +166,7 @@ function showResult(){ ///////////move to /post
         initTween();
         requestAnimationFrame( animate );
         TWEEN.update();
-    }
+    // }
 }
 
 var maxWidth = 450;

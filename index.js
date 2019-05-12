@@ -17,6 +17,9 @@ var client = new Client({
     //ssl:true,
 });
 
+// var tran = require("./static/scripts/client.js");
+// tran.show();
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('static'));
 // next 3 lines set up mustache
@@ -25,6 +28,7 @@ app.set('view engine', 'html');
 app.set('views', __dirname);
 
 client.connect();
+
 
 app.get("/", function (req, res) {
 
@@ -42,7 +46,6 @@ app.get("/", function (req, res) {
             // }
         });
     });
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!! Loaded');
 });
 
 app.post('/update', function (req, res) {
