@@ -126,13 +126,18 @@ function addInput() {
     x.setAttribute("name","textarea");
     x.setAttribute("placeholder", "Type A Simple Wish!");
     x.setAttribute("id", "inputbox");
-    x.setAttribute("onkeypress", "showResult()"); //might need to do this in indexjs w/ node
-    x.setAttribute()
+    //x.setAttribute("onkeypress", "showResult()"); // might need to do this in indexjs w/ node
+
+    var s = document.createElement("SUBMIT");
+    s.setAttribute("type","submit");
+    s.setAttribute("value","submit");
+    //s.setAttribute("style","display:none;");
 
     f.appendChild(x); //append <input> to <form>
+    f.appendChild(s);
 }
 
-function showResult(){
+function showResult(){ ///////////move to /post
     if(event.keyCode == 13){
         var audio = new Audio("assets/sound.wav");
         audio.play();

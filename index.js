@@ -9,7 +9,7 @@ var connectionString = process.env.DATABASE_URL;
 
 var app = express();
 var port = process.env.PORT || 8002;
-var allWishes;
+var allWishes = [];
 
 var client = new Client({
     database:'wishes',
@@ -27,21 +27,35 @@ client.connect();
 
 app.get("/", function (req, res) {
 
-    // client.query('SELECT * FROM posts', function (err, res0) {
-    //     if (err) {
-    //         console.log(err.stack);
-    //     }
-    //     allPosts = res0.rows;
-    //     console.log(allPosts);
 
-    //     res.render('forum', {
-    //         "postContent": allPosts,
-    //         "post": function () {
-    //             return this.message;
-    //         }
-    //     });
-    // });
+    client.query('SELECT * FROM wish', function (err, res0) {
+        if (err) {
+            console.log(err.stack);
+        }
+        allPosts = res0.rows;
+        console.log(allPosts);
+
+        res.render('index', {
+            // "postContent": allPosts,
+            // "post": function () {
+            //     return this.message;
+            // }
+        });
+    });
     console.log('!!!!!!!!!!!!!!!!!!!!!!!!!! Loaded');
+});
+
+app.post('/update', function (req, res) {
+    var newPost = req.body.textarea;
+    console.log(newPost);
+
+    client.query("INSERT INTO posts (message) VALUES ('" + newPost + "')"), function (err, res) {
+        if (err) {
+            console.log(err.stack);
+        }
+    }
+
+    res.redirect('/');
 });
 
 app.listen(port);
