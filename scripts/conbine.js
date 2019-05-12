@@ -117,12 +117,19 @@ function blackIn(){
 }
 
 function addInput() {
+    var f = document.createElement("FORM");
+    f.setAttribute("method","POST");
+    f.setAttribute("action","/update");
+
     var x = document.createElement("INPUT");
     x.setAttribute("type", "text");
+    x.setAttribute("name","textarea");
     x.setAttribute("placeholder", "Type A Simple Wish!");
     x.setAttribute("id", "inputbox");
-    x.setAttribute("onkeypress", "showResult()");
-    document.body.appendChild(x);
+    x.setAttribute("onkeypress", "showResult()"); //might need to do this in indexjs w/ node
+    x.setAttribute()
+
+    f.appendChild(x); //append <input> to <form>
 }
 
 function showResult(){
