@@ -117,6 +117,7 @@ function blackIn(){
 }
 
 function addInput() {
+    console.log("show input");
     var f = document.createElement("FORM");
     f.setAttribute("method","POST");
     f.setAttribute("action","/update");
@@ -132,7 +133,8 @@ function addInput() {
     s.setAttribute("type","submit");
     s.setAttribute("value","submit");
     //s.setAttribute("style","display:none;");
-
+    
+    document.body.appendChild(f);
     f.appendChild(x); //append <input> to <form>
     f.appendChild(s);
 }
