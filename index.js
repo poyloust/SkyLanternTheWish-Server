@@ -18,6 +18,7 @@ var client = new Client({
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('static'));
 // next 3 lines set up mustache
 app.engine('html', mustacheExpress());
 app.set('view engine', 'html');
@@ -35,7 +36,7 @@ app.get("/", function (req, res) {
         allPosts = res0.rows;
         console.log(allPosts);
 
-        res.render('index', {
+        res.render('static/index', {
             // "postContent": allPosts,
             // "post": function () {
             //     return this.message;
