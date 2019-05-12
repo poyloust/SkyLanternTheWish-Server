@@ -57,7 +57,7 @@ app.post('/update', function (req, res) {
             console.log(err.stack);
         }
     }
-
+    res.status(204).send();
     // res.redirect('/'); //////or will go back to index
 });
 

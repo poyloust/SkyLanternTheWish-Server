@@ -122,7 +122,7 @@ function addInput() {
     f.setAttribute("method","POST");
     f.setAttribute("action","/update");
     f.setAttribute("onsubmit","showResult()");
-
+    
     var x = document.createElement("INPUT");
     x.setAttribute("type", "text");
     x.setAttribute("name","textarea");
