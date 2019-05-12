@@ -203,7 +203,7 @@ function raycast ( e ) {
     raycaster.setFromCamera( mouse, camera );
     var intersects = raycaster.intersectObjects( object.children );
     for ( var i = 0; i < intersects.length; i++ ) {
-        console.log( intersects[ i ] );
+        //console.log( intersects[ i ] );
     }
     var INTERSECTED;
     if (intersects.length > 0) {

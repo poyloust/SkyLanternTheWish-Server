@@ -165,6 +165,6 @@ function loadModelSky(){
                 }, onProgress, onError );
         } );
 }
-var audio = new Audio("assets/bgm.mp3");
+var audio = new Audio("../assets/bgm.mp3");
 audio.loop = true;
 audio.play();
