@@ -63,7 +63,7 @@ function makeWish() {
         //initialize texture
         object.traverse(function (child) {
             inputText = "";
-            generateTexture();
+            //generateTexture();
             if (child.isMesh) {
                 child.material.map = texture;
             }
@@ -85,7 +85,7 @@ function makeWish() {
     function onError() { }
 
     var loader = new THREE.OBJLoader(manager);
-    loader.load('assets/test3.obj', function (obj) {
+    loader.load('assets/lantern.obj', function (obj) {
         object = obj;
         obj.scale.set(30, 30, 30);
         obj.rotation.y = (Math.PI);
