@@ -40,7 +40,7 @@ app.get("/", function (req, res) {
             console.log(err.stack);
         }
 
-        for(var i = 0 ; i < /*res0.rows.length*/ 2; i++){
+        for(var i = 0 ; i < res0.rows.length; i++){
             allWishes[i] = res0.rows[i].message;
             console.log( i + ':::' +  allWishes[i]);
 
