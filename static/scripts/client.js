@@ -7,6 +7,7 @@ let reset = document.getElementById('reset');
 let wishCanvas = document.getElementById('canvas');
 let wishContext = wishCanvas.getContext('2d');
 let baseTex = document.getElementById("scream");
+var dataString = document.getElementById('mstch').innerText;
 
 
 let inputText = '';
@@ -20,11 +21,81 @@ var distX, distY, distZ;
 var velocity = new THREE.Vector3();
 var objsize;
 var controls2;
+var dataArr;
 
 
+
+
+
+var ts = ['00000 1','111112 2','22222 3','33333 5 ','44444 3'];
+getNodeData();
 animatedTexts();
-loadModelSky();
+//loadModelSky();    // load grouped objs
 
+initSky();
+function initSky(){
+
+    resetCamera();
+    for(var i=0; i<ts.length; i++){
+        inputText = ts[i];
+        console.log(inputText);
+
+        function onProgress(xhr) {
+            if (xhr.lengthComputable) {
+                var percentComplete = xhr.loaded / xhr.total * 100;
+                console.log('model ' + Math.round(percentComplete, 2) + '% downloaded');
+            }
+        }
+        function onError() { }
+        
+        var loader = new THREE.OBJLoader(manager);
+        loader.load('assets/lantern.obj', function (obj) {
+            object = obj;
+            obj.scale.set(30, 30, 30);
+            obj.rotation.y = (Math.PI);
+            obj.children[0].material = new THREE.MeshLambertMaterial();
+            //position
+            objsize = obj.position.set(7000, 22500, 17000);
+        }, onProgress, onError);
+
+
+        var manager = new THREE.LoadingManager(loadM);
+        manager.onProgress = function (item, loaded, total) {
+            console.log(item, loaded, total);
+        };
+
+        function loadM(){
+            console.log('loadeddddddddd');
+            updateT = true;
+            generateTexture();
+            object.traverse(function (child) {
+                if (child.isMesh) child.material.map = texture;
+            });
+
+            scene.add(obejct);
+        }
+
+    }
+}
+
+
+
+
+
+
+
+
+
+function getNodeData(){
+    dataArr = dataString.split(',');
+    popper(dataArr);
+     console.log(dataArr);
+}
+
+function popper(arr) {
+    arr.pop();
+    return arr;
+ }
 
 function animatedTexts() {
     setTimeout(function () {

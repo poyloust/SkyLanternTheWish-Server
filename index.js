@@ -28,18 +28,17 @@ app.set('view engine', 'html');
 app.set('views', __dirname);
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// get data.json -> ajax
 
 app.get("/", function (req, res) {
 
     app.use(express.static('static'));
-    const canvas = createCanvas(200, 200);
-    const ctx = canvas.getContext('2d');
     
     client.query('SELECT * FROM wish', function (err, res0) {
         if (err) {
             console.log(err.stack);
         }
-
+        allPosts = res0.rows;
         for(var i = 0 ; i < res0.rows.length; i++){
             allWishes[i] = res0.rows[i].message;
             console.log( i + ':::' +  allWishes[i]);
@@ -47,6 +46,10 @@ app.get("/", function (req, res) {
         }
 
         res.render('static/index', {
+            "postContent": allPosts,
+            "post": function () {
+                return this.message;
+            }
         });
         //res.send(canvas);
 
