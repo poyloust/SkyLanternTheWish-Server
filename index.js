@@ -3,6 +3,8 @@ var mustacheExpress = require('mustache-express');
 var request = require('request');
 const bodyParser = require('body-parser'); 
 var { Client } = require('pg');
+const { createCanvas, loadImage }  = require('canvas');
+var fs = require('fs');
 var connectionString = process.env.DATABASE_URL;
 //'postgres://vvccboedpnfrwz:d5112736a828712297b8e2d0043629df29fe74b590bd5b865198a70f7403b560@ec2-23-23-92-204.compute-1.amazonaws.com:5432/d2bt6ppaqap0hc';
 
@@ -16,8 +18,9 @@ var client = new Client({
     connectionString: connectionString,
     //ssl:true,
 });
-
 client.connect();
+
+
 
 // next 3 lines set up mustache
 app.engine('html', mustacheExpress());
@@ -29,23 +32,27 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", function (req, res) {
 
     app.use(express.static('static'));
-
+    const canvas = createCanvas(200, 200);
+    const ctx = canvas.getContext('2d');
+    
     client.query('SELECT * FROM wish', function (err, res0) {
         if (err) {
             console.log(err.stack);
         }
 
-        for(var i = 0 ; i < res0.rows.length; i++){
+        for(var i = 0 ; i < /*res0.rows.length*/ 2; i++){
             allWishes[i] = res0.rows[i].message;
             console.log( i + ':::' +  allWishes[i]);
+
         }
 
         res.render('static/index', {
-            // "postContent": allPosts,
-            // "post": function () {
-            //     return this.message;
-            // }
         });
+        //res.send(canvas);
+
+        // npm canvas
+
+        
 
     });
     console.log('Forum Loaded');

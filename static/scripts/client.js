@@ -63,7 +63,7 @@ function makeWish() {
         //initialize texture
         object.traverse(function (child) {
             inputText = "";
-            //generateTexture();
+            generateTexture();
             if (child.isMesh) {
                 child.material.map = texture;
             }
