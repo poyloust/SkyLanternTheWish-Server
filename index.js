@@ -34,8 +34,11 @@ app.get("/", function (req, res) {
         if (err) {
             console.log(err.stack);
         }
-        allPosts = res0.rows;
-        console.log(allPosts);
+
+        for(var i = 0 ; i < res0.rows.length; i++){
+            allWishes[i] = res0.rows[i].message;
+            console.log( i + ':::' +  allWishes[i]);
+        }
 
         res.render('static/index', {
             // "postContent": allPosts,
