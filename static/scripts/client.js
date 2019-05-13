@@ -25,77 +25,117 @@ var dataArr;
 
 
 
-
-
-var ts = ['00000 1','111112 2','22222 3','33333 5 ','44444 3'];
 getNodeData();
-animatedTexts();
 //loadModelSky();    // load grouped objs
 
-initSky();
-function initSky(){
 
-    resetCamera();
-    for(var i=0; i<ts.length; i++){
-        inputText = ts[i];
-        console.log(inputText);
-
-        function onProgress(xhr) {
-            if (xhr.lengthComputable) {
-                var percentComplete = xhr.loaded / xhr.total * 100;
-                console.log('model ' + Math.round(percentComplete, 2) + '% downloaded');
-            }
-        }
-        function onError() { }
-        
-        var loader = new THREE.OBJLoader(manager);
-        loader.load('assets/lantern.obj', function (obj) {
-            object = obj;
-            obj.scale.set(30, 30, 30);
-            obj.rotation.y = (Math.PI);
-            obj.children[0].material = new THREE.MeshLambertMaterial();
-            //position
-            objsize = obj.position.set(7000, 22500, 17000);
-        }, onProgress, onError);
-
-
-        var manager = new THREE.LoadingManager(loadM);
-        manager.onProgress = function (item, loaded, total) {
-            console.log(item, loaded, total);
-        };
-
-        function loadM(){
-            console.log('loadeddddddddd');
-            updateT = true;
-            generateTexture();
-            object.traverse(function (child) {
-                if (child.isMesh) child.material.map = texture;
-            });
-
-            scene.add(obejct);
-        }
-
-    }
-}
-
-
-
-
-
-
-
-
-
+// get node data then load sky box
 function getNodeData(){
     dataArr = dataString.split(',');
     popper(dataArr);
-     console.log(dataArr);
+    for(var i = 0; i<3; i++){
+        initSky();
+    } 
 }
 
 function popper(arr) {
     arr.pop();
     return arr;
  }
+
+function initSky(){
+
+    resetCamera();
+    function loadModel() {
+        //initialize texture
+        object.traverse(function (child) {
+            inputText = "";
+            generateTexture();
+            if (child.isMesh) {
+                child.material.map = texture;
+            }
+        });
+        scene.add(object);
+        console.log('add');
+    }
+    var manager = new THREE.LoadingManager(loadModel);
+    manager.onProgress = function (item, loaded, total) {
+        console.log(item, loaded, total);
+    };
+
+    // model
+    function onProgress(xhr) {
+        if (xhr.lengthComputable) {
+            var percentComplete = xhr.loaded / xhr.total * 100;
+            console.log('model ' + Math.round(percentComplete, 2) + '% downloaded');
+        }
+    }
+    function onError() { }
+
+    var loader = new THREE.OBJLoader(manager);
+    loader.load('assets/lantern.obj', function (obj) {
+        object = obj;
+        obj.scale.set(10, 10, 10);
+        obj.rotation.y = (Math.PI);
+        obj.children[0].material = new THREE.MeshLambertMaterial();
+        //position
+        objsize = obj.position.set(10000, 22500, 17000);
+    }, onProgress, onError);
+
+
+    // for(var i=0; i<dataArr.length; i++){
+    //     inputText = dataArr[i];
+    //     console.log(inputText);
+
+    //     function onProgress(xhr) {
+    //         if (xhr.lengthComputable) {
+    //             var percentComplete = xhr.loaded / xhr.total * 100;
+    //             console.log('model ' + Math.round(percentComplete, 2) + '% downloaded');
+    //         }
+    //     }
+    //     function onError() { }
+        
+    //     var loader = new THREE.OBJLoader(manager);
+    //         loader.load('assets/lantern.obj', function (obj) {
+    //             //check loaded
+    //             object = obj;
+    //             obj.scale.set(30, 30, 30);
+    //             obj.rotation.y = (Math.PI);
+    //             obj.children[0].material = new THREE.MeshLambertMaterial();
+    //             //position
+    //             objsize = obj.position.set(7000, 22500, 17000);
+           
+    //     }, onProgress, onError);
+    //     var manager = new THREE.LoadingManager(loadM);
+    //         manager.onProgress = function (item, loaded, total) {
+    //         console.log(item, loaded, total);
+    //     };
+    //     function loadM(){
+    //         console.log('loadM function loaded');
+    //         updateT = true;
+    //         wishCanvas.width = 4096;
+    //         wishCanvas.height = 4096;
+    //         wishContext.fillStyle = 'black';
+    //         wishContext.font = "96px Amatic";
+    //         wishContext.drawImage(baseTex, 0, 0);
+    //         texture = new THREE.CanvasTexture(wishCanvas);
+    //         texture.needsUpdate = true;
+    //         wrapText(wishContext, inputText, 2350, 2050, maxWidth, lineHeight);
+            
+    //         object.traverse(function (child) {
+    //             if (child.isMesh) child.material.map = texture;
+    //         });
+    //         scene.add(obejct);
+    //     }
+
+    // }
+
+    inputText = dataArr.toString();
+    updateT = true;
+    generateTexture();
+
+    animatedTexts(); // start interaction
+}
 
 function animatedTexts() {
     setTimeout(function () {
