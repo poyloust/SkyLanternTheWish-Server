@@ -16,7 +16,7 @@ var allWishes = [];
 var client = new Client({
     database:'wishes',
     connectionString: connectionString,
-    ssl:true,
+    //ssl:true,
 });
 client.connect();
 
