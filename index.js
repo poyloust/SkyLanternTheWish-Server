@@ -16,7 +16,7 @@ var allWishes = [];
 var client = new Client({
     database:'wishes',
     connectionString: connectionString,
-    // ssl:true,
+    ssl:true,
 });
 client.connect();
 
@@ -51,9 +51,6 @@ app.get("/", function (req, res) {
                 return this.message;
             }
         });
-        //res.send(canvas);
-
-        // npm canvas
 
         
 
