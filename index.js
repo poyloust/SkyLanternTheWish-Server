@@ -17,20 +17,18 @@ var client = new Client({
     //ssl:true,
 });
 
-// var tran = require("./static/scripts/client.js");
-// tran.show();
+client.connect();
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('static'));
 // next 3 lines set up mustache
 app.engine('html', mustacheExpress());
 app.set('view engine', 'html');
 app.set('views', __dirname);
-
-client.connect();
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get("/", function (req, res) {
+
+    app.use(express.static('static'));
 
     client.query('SELECT * FROM wish', function (err, res0) {
         if (err) {
@@ -45,7 +43,9 @@ app.get("/", function (req, res) {
             //     return this.message;
             // }
         });
+
     });
+    console.log('Forum Loaded');
 });
 
 app.post('/update', function (req, res) {
@@ -58,7 +58,6 @@ app.post('/update', function (req, res) {
         }
     }
     res.status(204).send();
-    // res.redirect('/'); //////or will go back to index
 });
 
 app.listen(port);
