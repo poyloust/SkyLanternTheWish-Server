@@ -8,7 +8,7 @@ let wishCanvas = document.getElementById('canvas');
 let wishContext = wishCanvas.getContext('2d');
 let baseTex = document.getElementById("scream");
 var dataString = document.getElementById('mstch').innerText;
-
+var wishlist = document.getElementById('wishList');
 
 let inputText = '';
 let texture;
@@ -23,8 +23,6 @@ var objsize;
 var controls2;
 var dataArr;
 var oz;
-var ox;
-var oy;
 var i = 0;
 
 //loadModelSky();    // load grouped objs
@@ -120,10 +118,19 @@ function initControls() {
     controls2.maxDistance = 600;
     controls2.enablePan = true;
 }
+function seeWish(){
+    wishlist.setAttribute("style","display:inline-block;")
+
+    document.onkeypress=function(e){
+        wishlist.setAttribute("style","display:none;");
+    }
+}
+
 
 function makeWish() {
     resetCamera();
     blackIn();
+    wishlist.setAttribute("style","display:none;");
 
     function loadModel() {
         //initialize texture
@@ -265,35 +272,36 @@ function wrapText(wishContext, text, x, y, maxWidth, lineHeight) {
 }
 
 //raycast
-// renderer.domElement.addEventListener('mousemove', raycast, false);
-// function raycast(e) {
-//     mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-//     mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
-//     raycaster.setFromCamera(mouse, camera);
-//     var intersects = raycaster.intersectObjects(object.children);
-//     for (var i = 0; i < intersects.length; i++) {
-//         //console.log( intersects[ i ] );
-//     }
-//     var INTERSECTED;
-//     if (intersects.length > 0) {
-//         if (INTERSECTED != intersects[0].object) {
-//             if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
-//             INTERSECTED = intersects[0].object;
-//             INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-//             INTERSECTED.material.emissive.setHex(0xff0000);
-//         }
-//         intersects.length = 0;
-//     }
-//     else {
-//         if (INTERSECTED) INTERSECTED.material.emissive.setHex(0x000000);
-//         INTERSECTED = null;
-//     }
-// }
+renderer.domElement.addEventListener('mousemove', raycast, false);
+function raycast(e) {
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    var intersects = raycaster.intersectObjects(object.children);
+    for (var i = 0; i < intersects.length; i++) {
+        //console.log( intersects[ i ] );
+    }
+    var INTERSECTED;
+    if (intersects.length > 0) {
+        if (INTERSECTED != intersects[0].object) {
+            if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+            INTERSECTED = intersects[0].object;
+            INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+            INTERSECTED.material.emissive.setHex(0xff0000);
+        }
+        intersects.length = 0;
+    }
+    else {
+        if (INTERSECTED) INTERSECTED.material.emissive.setHex(0x000000);
+        INTERSECTED = null;
+    }
+}
 
 // Render
 function animate() {
     requestAnimationFrame(animate);
     if (updateT == true) {
+        console.log('generate once');
         generateTexture();
         object.traverse(function (child) {
             if (child.isMesh) child.material.map = texture;
@@ -302,7 +310,7 @@ function animate() {
     }
     renderer.render(scene, camera);
     TWEEN.update();
-    if (i < dataArr.length) {
+    if (i < 20) {
         initSky();
         i += 1;
     }
