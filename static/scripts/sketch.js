@@ -115,9 +115,9 @@ render();
 
 var tween;
 function initTween() {
-		var randomX = Math.floor((Math.random() * 1000) + 100000);
-		var randomY = Math.floor((Math.random() * 2000) + 50000);
-		var randomZ = Math.floor((Math.random() * (-10000)) + 20000);
+		var randomX = Math.floor((Math.random() * 8000) + 100000);
+		var randomY = Math.floor((Math.random() * 10000) + 50000);
+		var randomZ = Math.floor((Math.random() * (-6000)) + 15000);
 		tween = new TWEEN.Tween(objsize)
 		.to( { x: randomX,y:randomY,z:randomZ}, 17000 );
 		tween.start();

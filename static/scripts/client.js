@@ -14,7 +14,7 @@ let inputText = '';
 let texture;
 var updateT = false;
 let inputWish;
-let obejct = [];
+let obejct ;
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 var distX, distY, distZ;
@@ -22,41 +22,42 @@ var velocity = new THREE.Vector3();
 var objsize;
 var controls2;
 var dataArr;
+var oz;
+var ox;
+var oy;
+var i = 0;
 
-
-
-getNodeData();
 //loadModelSky();    // load grouped objs
 
 
+getNodeData();
 // get node data then load sky box
-function getNodeData(){
+function getNodeData() {
     dataArr = dataString.split(',');
     popper(dataArr);
-    for(var i = 0; i<3; i++){
-        initSky();
-    } 
+    //initSky();
+    //animatedTexts();
 }
 
 function popper(arr) {
     arr.pop();
     return arr;
- }
+}
 
-function initSky(){
-
-    resetCamera();
+function initSky() {
+    //resetCamera();
+    console.log('load oncccccce');
     function loadModel() {
-        //initialize texture
+        console.log(i);
+       //initialize texture
         object.traverse(function (child) {
-            inputText = "";
+            inputText = dataArr[i];
             generateTexture();
             if (child.isMesh) {
                 child.material.map = texture;
             }
         });
         scene.add(object);
-        console.log('add');
     }
     var manager = new THREE.LoadingManager(loadModel);
     manager.onProgress = function (item, loaded, total) {
@@ -74,63 +75,17 @@ function initSky(){
 
     var loader = new THREE.OBJLoader(manager);
     loader.load('assets/lantern.obj', function (obj) {
-        object = obj;
         obj.scale.set(10, 10, 10);
         obj.rotation.y = (Math.PI);
         obj.children[0].material = new THREE.MeshLambertMaterial();
         //position
-        objsize = obj.position.set(10000, 22500, 17000);
+        oz = Math.floor(Math.random() * 17000) + 12000;
+        ox = Math.floor(Math.random() * 8000) + 5000;
+        oy = Math.floor(Math.random() * 22400) + 25000;
+        objsize = obj.position.set(ox, oy, oz);
+        object = obj;
     }, onProgress, onError);
 
-
-    // for(var i=0; i<dataArr.length; i++){
-    //     inputText = dataArr[i];
-    //     console.log(inputText);
-
-    //     function onProgress(xhr) {
-    //         if (xhr.lengthComputable) {
-    //             var percentComplete = xhr.loaded / xhr.total * 100;
-    //             console.log('model ' + Math.round(percentComplete, 2) + '% downloaded');
-    //         }
-    //     }
-    //     function onError() { }
-        
-    //     var loader = new THREE.OBJLoader(manager);
-    //         loader.load('assets/lantern.obj', function (obj) {
-    //             //check loaded
-    //             object = obj;
-    //             obj.scale.set(30, 30, 30);
-    //             obj.rotation.y = (Math.PI);
-    //             obj.children[0].material = new THREE.MeshLambertMaterial();
-    //             //position
-    //             objsize = obj.position.set(7000, 22500, 17000);
-           
-    //     }, onProgress, onError);
-    //     var manager = new THREE.LoadingManager(loadM);
-    //         manager.onProgress = function (item, loaded, total) {
-    //         console.log(item, loaded, total);
-    //     };
-    //     function loadM(){
-    //         console.log('loadM function loaded');
-    //         updateT = true;
-    //         wishCanvas.width = 4096;
-    //         wishCanvas.height = 4096;
-    //         wishContext.fillStyle = 'black';
-    //         wishContext.font = "96px Amatic";
-    //         wishContext.drawImage(baseTex, 0, 0);
-    //         texture = new THREE.CanvasTexture(wishCanvas);
-    //         texture.needsUpdate = true;
-    //         wrapText(wishContext, inputText, 2350, 2050, maxWidth, lineHeight);
-            
-    //         object.traverse(function (child) {
-    //             if (child.isMesh) child.material.map = texture;
-    //         });
-    //         scene.add(obejct);
-    //     }
-
-    // }
-
-    inputText = dataArr.toString();
     updateT = true;
     generateTexture();
 
@@ -203,6 +158,7 @@ function makeWish() {
         obj.children[0].material = new THREE.MeshLambertMaterial();
         //position
         objsize = obj.position.set(7000, 22500, 17000);
+
     }, onProgress, onError);
 
 
@@ -309,30 +265,30 @@ function wrapText(wishContext, text, x, y, maxWidth, lineHeight) {
 }
 
 //raycast
-renderer.domElement.addEventListener('mousemove', raycast, false);
-function raycast(e) {
-    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
-    raycaster.setFromCamera(mouse, camera);
-    var intersects = raycaster.intersectObjects(object.children);
-    for (var i = 0; i < intersects.length; i++) {
-        //console.log( intersects[ i ] );
-    }
-    var INTERSECTED;
-    if (intersects.length > 0) {
-        if (INTERSECTED != intersects[0].object) {
-            if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
-            INTERSECTED = intersects[0].object;
-            INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-            INTERSECTED.material.emissive.setHex(0xff0000);
-        }
-        intersects.length = 0;
-    }
-    else {
-        if (INTERSECTED) INTERSECTED.material.emissive.setHex(0x000000);
-        INTERSECTED = null;
-    }
-}
+// renderer.domElement.addEventListener('mousemove', raycast, false);
+// function raycast(e) {
+//     mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+//     mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
+//     raycaster.setFromCamera(mouse, camera);
+//     var intersects = raycaster.intersectObjects(object.children);
+//     for (var i = 0; i < intersects.length; i++) {
+//         //console.log( intersects[ i ] );
+//     }
+//     var INTERSECTED;
+//     if (intersects.length > 0) {
+//         if (INTERSECTED != intersects[0].object) {
+//             if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+//             INTERSECTED = intersects[0].object;
+//             INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+//             INTERSECTED.material.emissive.setHex(0xff0000);
+//         }
+//         intersects.length = 0;
+//     }
+//     else {
+//         if (INTERSECTED) INTERSECTED.material.emissive.setHex(0x000000);
+//         INTERSECTED = null;
+//     }
+// }
 
 // Render
 function animate() {
@@ -346,5 +302,9 @@ function animate() {
     }
     renderer.render(scene, camera);
     TWEEN.update();
+    if (i < dataArr.length) {
+        initSky();
+        i += 1;
+    }
 }
 animate();
